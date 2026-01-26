@@ -22,6 +22,7 @@ VALUES (
 );
 
 # After record is added in parent table, subsequent child tables can be inserted/upadted accordingly.
+	-- NOTE: Adding record in child table with no record traceback to parent table will yield ERROR.
 INSERT INTO dept_emp
 VALUES (
 	999903,
@@ -34,7 +35,7 @@ INSERT INTO departments VALUES(
 'd010', 'Business Analysis');
 
 # Instead of manually adding each record, entire (or portions of) different tables can be copied straightaway.
--- Defining the table first
+-- Defining the table first:
 CREATE TABLE salaries_dup (
 	emp_no INT NOT NULL,
     salary INT NOT NULL,
@@ -42,14 +43,15 @@ CREATE TABLE salaries_dup (
     to_date DATE
 );
 
--- Creating a conditional duplicate
+-- Creating a conditional duplicate:
 INSERT INTO salaries_dup 
 SELECT * FROM salaries
 WHERE salary >= 100000;
 
+# Verifying:
 SELECT * FROM salaries_dup 
 WHERE salary < 100000
-LIMIT 10; 		# VERIFY
+LIMIT 10; 		
 
 -------------------------------------------------------------------------------------------------------------------------------
 # Transaction Control Language (TCL): Contains COMMIT and ROLLBACK clauses
